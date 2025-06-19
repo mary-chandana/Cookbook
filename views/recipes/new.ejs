@@ -1,0 +1,195 @@
+<% layout('layouts/boilerplate')%>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="card">
+                <div class="card-body">
+                    <h1 class="card-title text-center mb-4">New Recipe</h1>
+                    
+                    <!-- Recipe Creation Form -->
+                    <form action="/recipes" method="POST" novalidate class="validated-form" enctype="multipart/form-data">
+                        
+                        <!-- Recipe Title Field -->
+                        <div class="mb-3">
+                            <label class="form-label" for="title">Title</label>
+                            <input class="form-control" type="text" id="title" name="recipe[title]" required>
+                        </div>
+                        
+                        <!-- Dynamic Ingredients Section -->
+                        <div class="mb-3">
+                            <label class="form-label">Ingredients</label>
+                            <!-- Container for dynamic ingredient rows -->
+                            <div id="ingredients-container">
+                                <!-- Initial ingredient row (always present) -->
+                                <div class="ingredient-row row mb-2">
+                                    <div class="col-md-4">
+                                        <input type="text" class="form-control" name="recipe[ingredients][0][name]" placeholder="Ingredient name" required>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <input type="number" class="form-control" name="recipe[ingredients][0][amount]" placeholder="Amount" step="0.1" min="0">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <!-- Unit selection dropdown with common cooking units -->
+                                        <select class="form-control" name="recipe[ingredients][0][unit]" required>
+                                            <option value="">Select unit</option>
+                                            <option value="cups">cups</option>
+                                            <option value="tablespoons">tablespoons</option>
+                                            <option value="teaspoons">teaspoons</option>
+                                            <option value="grams">grams</option>
+                                            <option value="liters">liters</option>
+                                            <option value="pieces">pieces</option>
+                                            <option value="cloves">cloves</option>
+                                            <option value="slices">slices</option>
+                                            <option value="pinch">pinch</option>
+                                            <option value="to taste">to taste</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <!-- Remove button (hidden for first row) -->
+                                        <button type="button" class="btn btn-outline-danger btn-sm remove-ingredient" style="display: none;">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Button to add more ingredients -->
+                            <button type="button" class="btn btn-outline-primary btn-sm" id="add-ingredient">
+                                <i class="fas fa-plus me-1"></i>Add Ingredient
+                            </button>
+                        </div>
+                        
+                        <!-- Recipe Instructions Field -->
+                        <div class="mb-3">
+                            <label class="form-label" for="instruction">Instructions</label>
+                            <textarea class="form-control" id="instruction" name="recipe[instruction]" rows="3" required></textarea>
+                        </div>
+                        
+                        <!-- Image Upload Field -->
+                        <div class="mb-3">
+                            <label class="form-label" for="image">Images</label>
+                            <input class="form-control" type="file" id="image" name="image" multiple accept="image/*" max="2">
+                        </div>
+                        
+                        <!-- Submit Button -->
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary">Create Recipe</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript for Dynamic Ingredient Management -->
+<script>
+// Counter for generating unique ingredient indices
+let ingredientIndex = 1;
+
+// Event listener for adding new ingredients
+document.getElementById('add-ingredient').addEventListener('click', function() {
+    const container = document.getElementById('ingredients-container');
+    const newRow = document.createElement('div');
+    newRow.className = 'ingredient-row row mb-2';
+    
+    // Create HTML for new ingredient row with proper form field names
+    newRow.innerHTML = `
+        <div class="col-md-4">
+            <input type="text" class="form-control" name="recipe[ingredients][${ingredientIndex}][name]" placeholder="Ingredient name" required>
+        </div>
+        <div class="col-md-3">
+            <input type="number" class="form-control" name="recipe[ingredients][${ingredientIndex}][amount]" placeholder="Amount" step="0.1" min="0">
+        </div>
+        <div class="col-md-3">
+            <select class="form-control" name="recipe[ingredients][${ingredientIndex}][unit]" required>
+                <option value="">Select unit</option>
+                <option value="cups">cups</option>
+                <option value="tablespoons">tablespoons</option>
+                <option value="teaspoons">teaspoons</option>
+                <option value="grams">grams</option>
+                <option value="liters">liters</option>
+                <option value="pieces">pieces</option>
+                <option value="cloves">cloves</option>
+                <option value="slices">slices</option>
+                <option value="pinch">pinch</option>
+                <option value="to taste">to taste</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <button type="button" class="btn btn-outline-danger btn-sm remove-ingredient">
+                <i class="fas fa-trash"></i>
+            </button>
+        </div>
+    `;
+    
+    // Add the new row to the container
+    container.appendChild(newRow);
+    ingredientIndex++;
+    
+    // Update remove button visibility
+    updateRemoveButtons();
+});
+
+// Event delegation for removing ingredients (handles dynamically added elements)
+document.addEventListener('click', function(e) {
+    if (e.target.classList.contains('remove-ingredient') || e.target.closest('.remove-ingredient')) {
+        const row = e.target.closest('.ingredient-row');
+        row.remove();
+        reindexIngredients();  // Reindex to prevent sparse array issues
+        updateRemoveButtons();
+    }
+});
+
+// Function to reindex ingredient form fields to prevent sparse array issues
+function reindexIngredients() {
+    const rows = document.querySelectorAll('.ingredient-row');
+    rows.forEach((row, index) => {
+        // Update name field index
+        const nameInput = row.querySelector('input[name*="[name]"]');
+        nameInput.name = `recipe[ingredients][${index}][name]`;
+        
+        // Update amount field index
+        const amountInput = row.querySelector('input[name*="[amount]"]');
+        amountInput.name = `recipe[ingredients][${index}][amount]`;
+        
+        // Update unit field index
+        const unitSelect = row.querySelector('select[name*="[unit]"]');
+        unitSelect.name = `recipe[ingredients][${index}][unit]`;
+    });
+    
+    // Update the ingredientIndex to continue from the new count
+    ingredientIndex = rows.length;
+}
+
+// Function to show/hide remove buttons based on number of ingredients
+function updateRemoveButtons() {
+    const rows = document.querySelectorAll('.ingredient-row');
+    rows.forEach((row, index) => {
+        const removeBtn = row.querySelector('.remove-ingredient');
+        if (rows.length > 1) {
+            removeBtn.style.display = 'block';  // Show remove button if more than one ingredient
+        } else {
+            removeBtn.style.display = 'none';   // Hide remove button if only one ingredient
+        }
+    });
+}
+
+// Image upload validation
+document.getElementById('image').addEventListener('change', function(e) {
+    const files = e.target.files;
+    if (files.length > 2) {
+        alert('You can only upload a maximum of 2 images.');
+        this.value = ''; // Clear the selection
+        return;
+    }
+    
+    // Check file sizes (optional - limit to 5MB each)
+    for (let i = 0; i < files.length; i++) {
+        if (files[i].size > 5 * 1024 * 1024) { // 5MB
+            alert('Each image must be smaller than 5MB.');
+            this.value = '';
+            return;
+        }
+    }
+});
+</script>

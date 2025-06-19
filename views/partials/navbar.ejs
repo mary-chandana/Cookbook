@@ -1,0 +1,50 @@
+<style>
+.nav-main.nav-link {
+    color: #9c27b0 !important;
+    font-weight: 800;
+    font-size: 1.7rem;
+    letter-spacing: 2.5px;
+    font-family: 'Poppins', 'Segoe UI', Arial, sans-serif;
+    transition: color 0.3s cubic-bezier(0.4,0,0.2,1);
+}
+.nav-main.nav-link:hover {
+    color: #7b1fa2 !important;
+}
+
+</style>
+<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #212529; padding: 0.5rem 1.5rem;">
+    <div class="container-fluid">
+        <a class="nav-main nav-link" href="/" >
+            <i class="fas fa-scroll me-2"></i>CookBook
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/recipes" style="color: #e9ecef; font-size: 1.25rem;">Recipes</a>
+                </li>
+                <% if(!currentUser) { %>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/login" style="color: #e9ecef; font-size: 1.25rem;">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/register" style="color: #e9ecef; font-size: 1.25rem;">Register</a>
+                    </li>
+                <% } else { %>
+                    <!-- <li class="nav-item">
+                        <a class="nav-link" href="/recipes/new" style="color: #e9ecef; font-size: 1.25rem;">New Recipe</a>
+                    </li> -->
+                    <li class="nav-item">
+                        <form action="/logout" method="POST" class="d-inline">
+                            <button type="submit" class="btn btn-link nav-link" style="color: #e9ecef !important; font-size: 1.25rem; text-decoration: none; padding: 0.5rem 1rem; background: none; border: none; cursor: pointer; color: #e9ecef !important; outline: none !important; box-shadow: none !important;">
+                                <i></i>Logout
+                            </button>
+                        </form>
+                    </li>
+                <% } %>
+            </ul>
+        </div>
+    </div>
+</nav>

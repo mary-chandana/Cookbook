@@ -1,0 +1,265 @@
+<% layout('layouts/boilerplate')%>
+<link rel="stylesheet" href="/stylesheets/stars.css">
+
+<!-- Custom styles for recipe display -->
+<style>
+    /* Preserve line breaks in recipe instructions */
+    .recipe-instruction {
+        white-space: pre-line;
+    }
+    
+    /* Modern section styling */
+    .recipe-section {
+        background: rgba(255, 255, 255, 0.02);
+        border-radius: 12px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(10px);
+    }
+    
+    /* Section headers */
+    .section-header {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .section-header h3 {
+        color: #e9ecef;
+        margin: 0;
+        font-weight: 600;
+        font-size: 1.3rem;
+        letter-spacing: 0.5px;
+    }
+    
+    .section-header i {
+        color: #e9ecef;
+        font-size: 1.2rem;
+        opacity: 0.8;
+    }
+    
+    /* Modern ingredients list */
+    .ingredients-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+    
+    /* Individual ingredient styling */
+    .ingredients-list li {
+        padding: 0.5rem 0;
+        display: flex;
+        align-items: center;
+    }
+    
+    .ingredients-list li:last-child {
+        border-bottom: none;
+    }
+    
+    /* Ingredient text styling */
+    .ingredient-name {
+        color: #adb5bd;
+        font-weight: 500;
+        font-size: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    .ingredient-icon {
+        color: #adb5bd;
+        font-size: 0.9rem;
+        opacity: 0.7;
+    }
+    
+    .ingredient-amount {
+        color: #adb5bd;
+        font-weight: 500;
+        font-size: 0.9rem;
+    }
+    
+    /* Instructions styling */
+    .instructions-content {
+        line-height: 1.6;
+        font-size: 1rem;
+        color: #adb5bd;
+    }
+    
+    /* Responsive design */
+    @media (max-width: 768px) {
+        .recipe-section {
+            padding: 1.5rem;
+        }
+        
+        .ingredients-list li {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.5rem;
+        }
+        
+        .ingredient-amount {
+            align-self: flex-end;
+        }
+    }
+</style>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            
+            <!-- Recipe Images Carousel -->
+            <div id="recipeCarousel" class="carousel slide mb-3" data-bs-ride="carousel">
+                <div class="carousel-inner rounded shadow">
+                    <% if(recipe.images.length) { %>
+                        <% for(let image of recipe.images) { %>
+                            <div class="carousel-item <%= image === recipe.images[0] ? 'active' : '' %>">
+                                <img src="<%= image.url %>" class="d-block w-100" alt="<%= recipe.title %>" style="height: 400px; object-fit: cover;">
+                            </div>
+                        <% } %>
+                    <% } %>
+                </div>
+                
+                <!-- Carousel navigation buttons (only show if multiple images) -->
+                <% if(recipe.images.length > 1) { %>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#recipeCarousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#recipeCarousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                <% } %>
+            </div>
+
+            <!-- Main Recipe Content Card -->
+            <div class="card shadow-sm mb-4">
+                <div class="card-body p-4">
+                    
+                    <!-- Recipe Header with Title, Author, and Action Buttons -->
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div>
+                            <h1 class="card-title mb-1"><%= recipe.title %></h1>
+                            <p class="text-muted" style="font-size: 0.9rem;">
+                                <i class="fas fa-user me-1"></i><%= recipe.author ? recipe.author.username : 'Anonymous' %>
+                            </p>
+                        </div>
+                        
+                        <!-- Edit/Delete buttons (only shown to recipe author) -->
+                        <% if(currentUser && recipe.author.equals(currentUser._id)) { %>
+                            <div class="d-flex gap-2">
+                                <a href="/recipes/<%= recipe._id %>/edit" class="btn btn-outline-primary">
+                                    <i class="fas fa-edit me-1"></i>Edit
+                                </a>
+                                <form action="/recipes/<%= recipe._id %>?_method=DELETE" method="POST" class="d-inline">
+                                    <button type="submit" class="btn btn-outline-danger">
+                                        <i class="fas fa-trash-alt me-1"></i>Delete
+                                    </button>
+                                </form>
+                            </div>
+                        <% } %>
+                    </div>
+                    
+                    <!-- Simple Ingredients Section -->
+                    <% if(recipe.ingredients && recipe.ingredients.length > 0) { %>
+                        <div class="mb-4">
+                            <div class="section-header">
+                                <i class="fas fa-list-ul"></i>
+                                <h3>Ingredients</h3>
+                            </div>
+                            <ul class="ingredients-list">
+                                <% recipe.ingredients.forEach(ingredient => { %>
+                                    <li>
+                                        <span class="ingredient-name">
+                                            <%= ingredient.name %>
+                                            <% if(ingredient.amount) { %>
+                                                <span class="mx-2">–</span>  <span class="ingredient-amount"><%= ingredient.amount %> <%= ingredient.unit %></span>
+                                            <% } else { %>
+                                                <span class="mx-2">–</span>  <span class="ingredient-amount"><%= ingredient.unit %></span>
+                                            <% } %>
+                                        </span>
+                                    </li>
+                                <% }); %>
+                            </ul>
+                        </div>
+                    <% } %>
+                    
+                    <!-- Simple Instructions Section -->
+                    <div class="mb-4">
+                        <div class="section-header">
+                            <i class="fas fa-clipboard-list"></i>
+                            <h3>Instructions</h3>
+                        </div>
+                        <div class="recipe-instruction">
+                            <p class="instructions-content"><%= recipe.instruction %></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+
+            <!-- Reviews Section -->
+            <div class="card shadow-sm">
+                <div class="card-body p-4">
+                    <h2 class="card-title mb-4" style="color: #e9ecef;">Reviews</h2>
+                    
+                    <!-- Review Form (only shown to logged-in users) -->
+                    <% if(currentUser) { %>
+                        <form action="/recipes/<%= recipe._id %>/reviews" method="POST" class="mb-4">
+                            <div class="mb-3">
+                                <label class="form-label" for="body" style="color: #e9ecef;">Write a Review</label>
+                                <textarea class="form-control" id="body" name="review[body]" rows="3" required placeholder="Share your thoughts about this recipe..." style="background-color: #2b3035; border-color: #343a40; color: #e9ecef;"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary" style="background-color: #da77f2; border-color: #da77f2;">
+                                <i class="fas fa-paper-plane me-1"></i>Submit Review
+                            </button>
+                        </form>
+                    <% } %>
+                    
+                    <!-- Reviews Display -->
+                    <div class="reviews">
+                        <% if(recipe.reviews.length === 0) { %>
+                            <!-- Empty state for no reviews -->
+                            <div class="text-center py-4">
+                                <i class="fas fa-comments fa-3x text-muted mb-3"></i>
+                                <p class="text-muted">No reviews yet. Be the first to review!</p>
+                            </div>
+                        <% } else { %>
+                            <!-- Display existing reviews -->
+                            <% for(let review of recipe.reviews) { %>
+                                <div class="review-card card mb-3 border-0" style="background-color: #2b3035;">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between align-items-start mb-2">
+                                            <div class="d-flex align-items-center">
+                                                <!-- Review author avatar -->
+                                                <div class="review-avatar me-3" style="width: 40px; height: 40px; background-color: #343a40; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                                    <i class="fas fa-user text-muted"></i>
+                                                </div>
+                                                <div>
+                                                    <h5 class="card-title mb-0" style="color: #e9ecef;"><%= review.author.username %></h5>
+                                                </div>
+                                            </div>
+                                            
+                                            <!-- Delete button (only shown to review author) -->
+                                            <% if(currentUser && review.author.equals(currentUser._id)) { %>
+                                                <form action="/recipes/<%= recipe._id %>/reviews/<%= review._id %>?_method=DELETE" method="POST" class="d-inline">
+                                                    <button type="submit" class="btn btn-sm btn-outline-danger">
+                                                        <i class="fas fa-trash-alt me-1"></i>Delete
+                                                    </button>
+                                                </form>
+                                            <% } %>
+                                        </div>
+                                        <p class="card-text mb-0 mt-2" style="color: #adb5bd;"><%= review.body %></p>
+                                    </div>
+                                </div>
+                            <% } %>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

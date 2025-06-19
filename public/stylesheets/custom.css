@@ -1,0 +1,113 @@
+/* Custom button styles */
+.btn-primary {
+    background-color: #9c27b0 !important;
+    border-color: #9c27b0 !important;
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active {
+    background-color: #7b1fa2 !important;
+    border-color: #7b1fa2 !important;
+    box-shadow: none !important;
+}
+
+.btn-outline-primary {
+    color: #20c997 !important;
+    border-color: #20c997 !important;
+}
+
+.btn-outline-primary:hover,
+.btn-outline-primary:focus,
+.btn-outline-primary:active {
+    background-color: #20c997 !important;
+    border-color: #20c997 !important;
+    color: #fff !important;
+    box-shadow: none !important;
+}
+
+.btn-edit {
+    background-color: #20c997 !important;
+    border-color: #20c997 !important;
+    color: #fff !important;
+}
+
+.btn-edit:hover,
+.btn-edit:focus,
+.btn-edit:active {
+    background-color: #1ba87e !important;
+    border-color: #1ba87e !important;
+    color: #fff !important;
+    box-shadow: none !important;
+}
+
+.btn-outline-danger {
+    color: #ff6b6b !important;
+    border-color: #ff6b6b !important;
+}
+
+.btn-outline-danger:hover,
+.btn-outline-danger:focus,
+.btn-outline-danger:active {
+    background-color: #ff6b6b !important;
+    border-color: #ff6b6b !important;
+    color: #fff !important;
+    box-shadow: none !important;
+}
+
+/* Recipe card styles */
+.card {
+    transition: transform 0.1s ease-in-out, box-shadow 0.1s ease-in-out !important;
+}
+
+.card:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.2) !important;
+}
+
+/* Navbar styles */
+.navbar {
+    min-height: 56px;
+}
+
+.navbar-brand.nav-link {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.navbar-brand.nav-link:hover {
+    background-color: rgba(156, 39, 176, 0.15) !important;
+    color: #e1bee7 !important;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(156, 39, 176, 0.2);
+}
+
+.nav-link:hover {
+    color: #e1bee7 !important;
+    transform: translateY(-1px);
+}
+
+/* Form control focus states */
+.form-control:focus {
+    border-color: #9c27b0 !important;
+    box-shadow: 0 0 0 0.25rem rgba(156, 39, 176, 0.25) !important;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #212529;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #343a40;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #495057;
+} 
