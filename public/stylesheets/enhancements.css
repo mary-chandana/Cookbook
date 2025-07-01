@@ -1,6 +1,6 @@
 /* Beautiful gradients and animations */
 .gradient-bg {
-    background: linear-gradient(135deg, #212529 0%, #343a40 100%);
+    background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-tertiary) 100%);
 }
 
 /* Card enhancements */
@@ -16,7 +16,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.7) 100%);
+    background: linear-gradient(to bottom, transparent 0%, rgba(26, 20, 35, 0.7) 100%); /* Deep Plum overlay */
     opacity: 0;
     transition: opacity 0.3s ease;
 }
@@ -41,7 +41,7 @@
     background: linear-gradient(
         45deg,
         transparent,
-        rgba(255,255,255,0.1),
+        rgba(245, 240, 246, 0.1), /* Soft Pearl */
         transparent
     );
     transform: rotate(45deg);
@@ -59,7 +59,7 @@
 
 .form-control:focus {
     transform: translateY(-1px);
-    box-shadow: 0 0 0 0.15rem rgba(218, 119, 242, 0.15) !important;
+    box-shadow: 0 0 0 0.15rem rgba(201, 123, 156, 0.15) !important; /* Blush Berry */
 }
 
 /* Beautiful scrollbar */
@@ -68,18 +68,18 @@
 }
 
 ::-webkit-scrollbar-track {
-    background: #212529;
+    background: var(--bg-primary);
     border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #343a40;
+    background: var(--bg-tertiary);
     border-radius: 5px;
-    border: 2px solid #212529;
+    border: 2px solid var(--bg-primary);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #495057;
+    background: var(--accent-secondary);
 }
 
 /* Beautiful animations */
@@ -117,15 +117,16 @@
 
 /* Beautiful text effects */
 .text-gradient {
-    background: linear-gradient(45deg, #da77f2, #20c997);
+    background: linear-gradient(45deg, var(--accent-primary), var(--accent-secondary));
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
 /* Beautiful dividers */
 .divider {
     height: 1px;
-    background: linear-gradient(to right, transparent, #343a40, transparent);
+    /* background: linear-gradient(to right, transparent, var(--border-color), transparent); */
     margin: 2rem 0;
 }
 

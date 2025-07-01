@@ -1,42 +1,36 @@
 <% layout('layouts/boilerplate')%>
 
 <style>
-    :root {
-        --primary-color: #9c27b0;
-        --primary-hover: #7b1fa2;
-        --accent-color: #e1bee7;
+    .main-content-wrapper {
+        min-height: 80vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
-    
 
     .main-content {
-        /* background: #2c3034; */
-        /* border-radius: 20px; */
         padding: 1em 1rem;
-        /* box-shadow: 0 7px 30px rgba(0, 0, 0, 0.2); */
         text-align: center;
-        /* border: 0.2px solid rgba(156, 39, 176, 0.1); */
     }
 
-    
     .display-4 {
         margin-top: 5rem;
-        color: #e9ecef;
+        color: var(--text-primary);
         font-weight: 800;
         margin-bottom: 1.5rem;
         font-size: 3rem;
-        text-shadow: 0 0 90px rgba(156, 39, 176, 0.3);
+
         letter-spacing: -0.02em;
         line-height: 1.2;
-        background: linear-gradient(135deg, #e9ecef 0%, #f8f9fa 100%);
+        background: linear-gradient(135deg, var(--text-primary) 0%, #f8f9fa 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
         position: relative;
     }
 
-
     .lead {
-        color: var(--accent-color);
+        color: var(--text-secondary);
         font-size: 1.235rem;
         font-weight: 500;
         line-height: 1.8;
@@ -44,30 +38,26 @@
         justify-content: center;
         margin-left: 100px;
     }
-    
 
     .typewriter {  
-    justify-content: center;
-
-    overflow: hidden;
-    text-wrap: center;
-    white-space: nowrap;
-    border-right: 1px solid var(--accent-color);
-    font-family: monospace;
-    max-width: 100%;
-    width: fit-content;
-    animation: typing 5s steps(40, end) 1s forwards, blink 0.8s step-end infinite;
+        justify-content: center;
+        overflow: hidden;
+        text-wrap: center;
+        white-space: nowrap;
+        border-right: 1px solid var(--accent-secondary);
+        font-family: monospace;
+        max-width: 100%;
+        width: fit-content;
+        animation: typing 5s steps(40, end) 1s forwards, blink 0.8s step-end infinite;
     }
 
-
-
     @keyframes typing {
-    from { max-width: 0 }
-    to { max-width: 100% }
+        from { max-width: 0 }
+        to { max-width: 100% }
     }
 
     @keyframes blink {
-    50% { border-color: transparent; }
+        50% { border-color: transparent; }
     }
 
     @media (max-width: 768px) {
@@ -84,20 +74,20 @@
         }
     }
 
-
     .btn-primary {
-        background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover) 100%);
+        background: linear-gradient(135deg, var(--accent-primary) 0%, #a85e7c 100%) !important;
         border: none;
         padding: 1.2rem 3rem;
         font-size: 1.1rem;
         font-weight: 600;
         border-radius: 50px;
         transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        box-shadow: 0 8px 25px rgba(156, 39, 176, 0.3);
+        box-shadow: 0 8px 25px var(--accent-primary, #c97b9c33);
         position: relative;
         overflow: hidden;
         letter-spacing: 0.5px;
         text-transform: uppercase;
+        color: var(--text-primary) !important;
     }
 
     .btn-primary::before {
@@ -112,9 +102,10 @@
     }
 
     .btn-primary:hover {
-        background: linear-gradient(135deg, var(--primary-hover) 0%, var(--primary-color) 100%);
+        background: linear-gradient(135deg, #a85e7c 0%, var(--accent-primary) 100%) !important;
         transform: translateY(-2px);
-        box-shadow: 0 10px 30px rgba(156, 39, 176, 0.35);
+        box-shadow: 0 10px 30px var(--accent-primary, #c97b9c55);
+        color: var(--text-primary) !important;
     }
 
     .btn-primary:hover::before {
@@ -123,21 +114,19 @@
 
     .btn-primary:active {
         transform: translateY(-1px);
-        box-shadow: 0 6px 20px rgba(156, 39, 176, 0.3);
+        box-shadow: 0 6px 20px var(--accent-primary, #c97b9c33);
     }
     footer {
         margin-top: 3rem;
-        color: #adb5bd;
+        color: var(--text-secondary);
         font-size: 0.9rem;
     }
-    
     body, html {
         margin: 0;
         padding: 0;
-        overflow: hidden; /* disables scrolling */
+        overflow: hidden;
         height: 100%;
     }
-
     .recipe-categories {
         display: flex;
         justify-content: center;
@@ -148,11 +137,10 @@
         margin-left: auto;
         margin-right: auto;
     }
-
     .icon-circle {
         width: 80px;
         height: 80px;
-        background: rgba(156, 39, 176, 0.1);
+        background: rgba(201, 123, 156, 0.1); /* Blush Berry 10% */
         border-radius: 50%;
         display: flex;
         align-items: center;
@@ -162,32 +150,30 @@
         cursor: pointer;
         position: relative;
         animation: spinFloat 6s ease-in-out infinite;
+        color: var(--accent-primary);
     }
-
     .icon-circle::after {
         content: '';
         position: absolute;
         width: 100%;
         height: 100%;
         border-radius: 50%;
-        background: rgba(156, 39, 176, 0.2);
+        background: rgba(201, 123, 156, 0.2); /* Blush Berry 20% */
         filter: blur(10px);
         z-index: -1;
         opacity: 0;
         transition: opacity 0.3s;
     }
-
     @keyframes glow {
         0%, 100% {
-            box-shadow: 0 0 5px rgba(156, 39, 176, 0.3),
-                       0 0 15px rgba(156, 39, 176, 0.2);
+            box-shadow: 0 0 5px var(--accent-primary, #c97b9c4d),
+                       0 0 15px var(--accent-primary, #c97b9c33);
         }
         50% {
-            box-shadow: 0 0 15px rgba(156, 39, 176, 0.5),
-                       0 0 25px rgba(156, 39, 176, 0.3);
+            box-shadow: 0 0 15px var(--accent-primary, #c97b9c80),
+                       0 0 25px var(--accent-primary, #c97b9c4d);
         }
     }
-
     @media (max-width: 768px) {
         .recipe-categories {
             gap: 1.5rem;
@@ -199,7 +185,6 @@
             font-size: 30px;
         }
     }
-
     @media (max-width: 576px) {
         .recipe-categories {
             gap: 1rem;
@@ -210,7 +195,6 @@
             font-size: 25px;
         }
     }
-
     @keyframes spinFloat {
         0%, 100% {
             transform: translateY(0) rotate(0deg) scale(1);
@@ -222,28 +206,28 @@
             transform: translateY(-15px) rotate(-10deg) scale(0.95);
         }
     }
-
     .icon-circle:hover {
         transform: scale(1.1);
     }
-
 </style>
 
 <main>
-    <div class="row justify-content-center">
-        <div class="col-md-12 text-center">
-            <h1 class="display-4"> Slice, Season, and Savor </h1>
-            <p class="lead typewriter">A kitchen tale, stirred in oil, spiced with a kick of chilli, and served on joyful little plates.</p>
-            <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-                <a href="/recipes" class="btn btn-primary btn-lg px-4 gap-3" style="box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.15);">Explore Recipes</a>
-            </div>
-            <div class="recipe-categories">
-                <p class="icon-circle">🍲</p>
-                <p class="icon-circle">🥘</p>
-                <p class="icon-circle">🥗</p>
-                <p class="icon-circle">🍛</p>
-                <p class="icon-circle">🌮</p>
-                <p class="icon-circle">🍹</p>
+    <div class="main-content-wrapper">
+        <div class="row justify-content-center w-100">
+            <div class="col-md-12 text-center">
+                <h1 class="display-4"> Slice, Season, and Savor </h1>
+                <p class="lead typewriter">A kitchen tale, stirred in oil, spiced with a kick of chilli, and served on joyful little plates.</p>
+                <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+                    <a href="/recipes" class="btn btn-primary btn-lg px-4 gap-3" style="box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.15);">Explore Recipes</a>
+                </div>
+                <div class="recipe-categories">
+                    <p class="icon-circle">🍲</p>
+                    <p class="icon-circle">🥘</p>
+                    <p class="icon-circle">🥗</p>
+                    <p class="icon-circle">🍛</p>
+                    <p class="icon-circle">🌮</p>
+                    <p class="icon-circle">🍹</p>
+                </div>
             </div>
         </div>
     </div>

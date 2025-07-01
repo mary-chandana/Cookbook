@@ -1,20 +1,23 @@
 /* Custom button styles */
 .btn-primary {
-    background-color: #9c27b0 !important;
-    border-color: #9c27b0 !important;
+    background-color: #c97b9c !important;
+    border-color: #c97b9c !important;
+    color: #f5f0f6 !important;
 }
 
 .btn-primary:hover,
 .btn-primary:focus,
 .btn-primary:active {
-    background-color: #7b1fa2 !important;
-    border-color: #7b1fa2 !important;
+    background-color: #a85e7c !important;
+    border-color: #a85e7c !important;
+    color: #f5f0f6 !important;
     box-shadow: none !important;
 }
 
 .btn-outline-primary {
     color: #20c997 !important;
     border-color: #20c997 !important;
+    background: transparent !important;
 }
 
 .btn-outline-primary:hover,
@@ -27,23 +30,24 @@
 }
 
 .btn-edit {
-    background-color: #20c997 !important;
-    border-color: #20c997 !important;
-    color: #fff !important;
+    background-color: var(--accent-primary) !important;
+    border-color: var(--accent-primary) !important;
+    color: var(--text-primary) !important;
 }
 
 .btn-edit:hover,
 .btn-edit:focus,
 .btn-edit:active {
-    background-color: #1ba87e !important;
-    border-color: #1ba87e !important;
-    color: #fff !important;
+    background-color: var(--accent-secondary) !important;
+    border-color: var(--accent-secondary) !important;
+    color: var(--text-primary) !important;
     box-shadow: none !important;
 }
 
 .btn-outline-danger {
     color: #ff6b6b !important;
     border-color: #ff6b6b !important;
+    background: transparent !important;
 }
 
 .btn-outline-danger:hover,
@@ -77,21 +81,21 @@
 }
 
 .navbar-brand.nav-link:hover {
-    background-color: rgba(156, 39, 176, 0.15) !important;
-    color: #e1bee7 !important;
+    background-color: rgba(201, 123, 156, 0.15) !important;
+    color: var(--accent-primary) !important;
     transform: translateY(-1px);
-    box-shadow: 0 2px 8px rgba(156, 39, 176, 0.2);
+    box-shadow: 0 2px 8px rgba(201, 123, 156, 0.2);
 }
 
 .nav-link:hover {
-    color: #e1bee7 !important;
+    color: var(--accent-primary) !important;
     transform: translateY(-1px);
 }
 
 /* Form control focus states */
 .form-control:focus {
-    border-color: #9c27b0 !important;
-    box-shadow: 0 0 0 0.25rem rgba(156, 39, 176, 0.25) !important;
+    border-color: var(--border-focus) !important;
+    box-shadow: 0 0 0 0.25rem rgba(201, 123, 156, 0.25) !important;
 }
 
 /* Custom scrollbar */
@@ -100,14 +104,14 @@
 }
 
 ::-webkit-scrollbar-track {
-    background: #212529;
+    background: var(--bg-primary);
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #343a40;
+    background: var(--bg-tertiary);
     border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #495057;
+    background: var(--accent-secondary);
 } 
